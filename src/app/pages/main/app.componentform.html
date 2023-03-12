@@ -21,7 +21,6 @@
       </article>
     </aside>
     <br>
-
     <aside class="aside aside-1 item-1 asidemob">
       <div class="titles">Conteudo Atualizar</div>
       <article class="main">
@@ -90,11 +89,14 @@
 <br>
 <br>
 <aside class="lista">
-  <div class="titles">Login</div>
+  <div class="titles">UpExcelTable</div>
   <article class="main">
-    <input type="file" (change)="onFileSelected($event)">
-    <input type="file" (change)="importExcel($event)" />
-    <table *ngIf="showExcelPreview">
+    <!-- <input type="file" (change)="handleFileInput($event)"> -->
+
+    <label for="input-file" class="custom-file-upload">Escolher arquivo</label>
+    <input id="input-file" type="file" (change)="handleFileInput($event)">
+
+    <!-- <table *ngIf="showExcelPreview">
       <thead>
         <tr>
           <th *ngFor="let header of headers">{{ header }}</th>
@@ -105,23 +107,24 @@
           <td *ngFor="let header of headers">{{ row[header] }}</td>
         </tr>
       </tbody>
-    </table>
+    </table> -->
     <div *ngIf="showExcelPreview">
       <h3>Visualização do Excel Selecionado:</h3>
-      <table>
+      <table class="lista">
         <thead>
           <tr>
             <th *ngFor="let header of headers">{{ header }}</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="main">
           <tr *ngFor="let row of resultsPreview">
             <td *ngFor="let header of headers">{{ row[header] }}</td>
           </tr>
         </tbody>
       </table>
     </div>
-    <button *ngIf="showSendButton" (click)="sendDataToBackend()">Enviar</button>
+    <br>
+    <button mat-raised-button *ngIf="showSendButton" style="background-color:tomato; font-weight: bold;" (click)="sendDataToBackend()">Enviar</button>
   </article>
 </aside>
 <br>

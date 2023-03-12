@@ -244,7 +244,11 @@ Listar() {
   //   };
   // }  
 
-
+  handleFileInput(event: any) {
+    this.onFileSelected(event);
+    this.importExcel(event);
+  }
+  
   onFileSelected(event: any) {
     debugger
     const file: File = event.target.files[0];
