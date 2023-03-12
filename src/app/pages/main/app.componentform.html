@@ -91,23 +91,8 @@
 <aside class="lista">
   <div class="titles">UpExcelTable</div>
   <article class="main">
-    <!-- <input type="file" (change)="handleFileInput($event)"> -->
-
     <label for="input-file" class="custom-file-upload">Escolher arquivo</label>
-    <input id="input-file" type="file" (change)="handleFileInput($event)">
-
-    <!-- <table *ngIf="showExcelPreview">
-      <thead>
-        <tr>
-          <th *ngFor="let header of headers">{{ header }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let row of results">
-          <td *ngFor="let header of headers">{{ row[header] }}</td>
-        </tr>
-      </tbody>
-    </table> -->
+    <input mat-raised-button id="input-file" type="file" (change)="handleFileInput($event)"  style="display: none">
     <div *ngIf="showExcelPreview">
       <h3>Visualização do Excel Selecionado:</h3>
       <table class="lista">
@@ -124,7 +109,9 @@
       </table>
     </div>
     <br>
-    <button mat-raised-button *ngIf="showSendButton" style="background-color:tomato; font-weight: bold;" (click)="sendDataToBackend()">Enviar</button>
+    <button mat-raised-button *ngIf="showSendButton" class="custom-file-upload" (click)="sendDataToBackend()">Enviar</button>
+    <p>{{ logMessage }}</p>
+    <pre>{{ jsonSent }}</pre>
   </article>
 </aside>
 <br>

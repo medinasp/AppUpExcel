@@ -247,6 +247,10 @@ Listar() {
   handleFileInput(event: any) {
     this.onFileSelected(event);
     this.importExcel(event);
+    this.resultsPreview = this.dataToBeSent;
+    this.showExcelPreview = true;
+    this.showSendButton = true;
+    console.log(JSON.stringify(this.dataToBeSent));
   }
   
   onFileSelected(event: any) {
@@ -282,6 +286,7 @@ Listar() {
   
       /* save data to be sent */
       this.dataToBeSent = result;
+      console.log(JSON.stringify(this.dataToBeSent));
   
       /* set showSendButton to true */
       this.showSendButton = true;
@@ -301,21 +306,38 @@ Listar() {
       const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary' });
       const wsname: string = wb.SheetNames[0];
       const ws: XLSX.WorkSheet = wb.Sheets[wsname];
-      this.results = <any[]>(XLSX.utils.sheet_to_json(ws, { header: 1 }));
-      this.headers = this.results[0];
-      this.results.splice(0, 1);
+      const data: any[][] = <any[][]>(XLSX.utils.sheet_to_json(ws, { header: 1 }));
+      const headers: string[] = data[0];
+      const objects: any[] = [];
+      for (let i = 1; i < data.length; i++) {
+        const obj: any = {};
+        for (let j = 0; j < headers.length; j++) {
+          obj[headers[j]] = data[i][j];
+        }
+        objects.push(obj);
+      }
+      this.results = objects;
+      this.headers = headers;
       this.showSendButton = true;
-      this.dataToBeSent = [];
+      this.dataToBeSent = objects;
     };
     reader.readAsBinaryString(target.files[0]);
   }
   
+  logMessage: string = '';
+  jsonSent: string = '';
+
   sendDataToBackend() {
     /* send data to API backend */
+    console.log(this.dataToBeSent);
+    this.jsonSent = JSON.stringify(this.dataToBeSent); // armazena uma cópia do JSON enviado
     this.AppService.sendDataToBackend(this.dataToBeSent).subscribe(() => {
       /* reset form and hide send button */
       this.dataToBeSent = [];
       this.showSendButton = false;
+      this.logMessage = 'Dados enviados com sucesso!';
+    }, error => {
+      this.logMessage = `Erro ao enviar dados: ${error.message}`;
     });
   }
 }

@@ -88,7 +88,7 @@ export class Service {
 
     sendDataToBackend(data: any[]) {
         debugger
-        const url = this.urlBackEnd + '/send-data';
+        const url = this.urlBackEnd + 'adicionarRangeProdutos';
         const headers = new HttpHeaders({ 'Authorization': `Bearer ${this.tokenUsuario}` });
         const options = { headers: headers };
         return this.httpClient.post(url, data, options);
